@@ -13,14 +13,13 @@ import Alamofire
 open class RsearchAPI {
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docId: (path) Document ID 
-     - parameter documentDetails: (body) Details of the document 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+     - parameter docId: () Document ID 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addDocument(indexName: String, docTypeName: String, docId: String, documentDetails: Any, completion: @escaping ((_ data: InlineResponse2005?,_ error: Error?) -> Void)) {
-        addDocumentWithRequestBuilder(indexName: indexName, docTypeName: docTypeName, docId: docId, documentDetails: documentDetails).execute { (response, error) -> Void in
+    open class func addDocument(indexName: StringdocTypeName: StringdocId: Stringcompletion: @escaping ((_ data: CreateDocumentSuccess?,_ error: Error?) -> Void)) {
+        addDocumentWithRequestBuilder(indexName: indexNamedocTypeName: docTypeNamedocId: docId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -29,50 +28,42 @@ open class RsearchAPI {
     /**
      - POST /indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}
      - Creates `doc_id` in `doc_type_name` for `index_name`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: writeAppID
-     - examples: [{contentType=application/json, example={
-  "document" : {
-    "result" : "created"
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docId: (path) Document ID 
-     - parameter documentDetails: (body) Details of the document 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+     - parameter docId: () Document ID 
 
-     - returns: RequestBuilder<InlineResponse2005> 
+     - returns: RequestBuilder<CreateDocumentSuccess> 
      */
-    open class func addDocumentWithRequestBuilder(indexName: String, docTypeName: String, docId: String, documentDetails: Any) -> RequestBuilder<InlineResponse2005> {
+    open class func addDocumentWithRequestBuilder(indexName: StringdocTypeName: StringdocId: String) -> RequestBuilder<CreateDocumentSuccess> {
         var path = "/indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{doc_id}", with: "\(docId)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: documentDetails)
+        let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse2005>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<CreateDocumentSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docTypeDetails: (body) Details of the document_type 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addDocumentType(indexName: String, docTypeName: String, docTypeDetails: Any, completion: @escaping ((_ data: InlineResponse2011?,_ error: Error?) -> Void)) {
-        addDocumentTypeWithRequestBuilder(indexName: indexName, docTypeName: docTypeName, docTypeDetails: docTypeDetails).execute { (response, error) -> Void in
+    open class func addDocumentType(indexName: StringdocTypeName: Stringcompletion: @escaping ((_ data: CreateDocTypeSuccess?,_ error: Error?) -> Void)) {
+        addDocumentTypeWithRequestBuilder(indexName: indexNamedocTypeName: docTypeName).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -80,46 +71,39 @@ open class RsearchAPI {
 
     /**
      - POST /indexes/{index_name}/document_types/{doc_type_name}
-     - Creates specific `document_type` in `index_name` with specified parameters
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - Creates specific `document_type` in `index_name` with specified parameters. You should define the parameters correctly as per the getting started guide, else getting the right structure might be an issue.
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "document_type" : {
-    "result" : "created"
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docTypeDetails: (body) Details of the document_type 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
 
-     - returns: RequestBuilder<InlineResponse2011> 
+     - returns: RequestBuilder<CreateDocTypeSuccess> 
      */
-    open class func addDocumentTypeWithRequestBuilder(indexName: String, docTypeName: String, docTypeDetails: Any) -> RequestBuilder<InlineResponse2011> {
+    open class func addDocumentTypeWithRequestBuilder(indexName: StringdocTypeName: String) -> RequestBuilder<CreateDocTypeSuccess> {
         var path = "/indexes/{index_name}/document_types/{doc_type_name}"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: docTypeDetails)
+        let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse2011>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<CreateDocTypeSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
+     - parameter indexName: () Name of the index 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func addIndex(indexName: String, completion: @escaping ((_ data: InlineResponse201?,_ error: Error?) -> Void)) {
+    open class func addIndex(indexName: Stringcompletion: @escaping ((_ data: CreateIndexSuccess?,_ error: Error?) -> Void)) {
         addIndexWithRequestBuilder(indexName: indexName).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -128,24 +112,18 @@ open class RsearchAPI {
 
     /**
      - POST /indexes/{index_name}
-     - Creates `a new index`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - Creates `a new index`.
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: writeAppID
-     - examples: [{contentType=application/json, example={
-  "index" : {
-    "result" : "created"
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
+     - parameter indexName: () Name of the index 
 
-     - returns: RequestBuilder<InlineResponse201> 
+     - returns: RequestBuilder<CreateIndexSuccess> 
      */
-    open class func addIndexWithRequestBuilder(indexName: String) -> RequestBuilder<InlineResponse201> {
+    open class func addIndexWithRequestBuilder(indexName: String) -> RequestBuilder<CreateIndexSuccess> {
         var path = "/indexes/{index_name}"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
@@ -154,20 +132,20 @@ open class RsearchAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse201>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<CreateIndexSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docId: (path) Document ID 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+     - parameter docId: () Document ID 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteDocument(indexName: String, docTypeName: String, docId: String, completion: @escaping ((_ data: InlineResponse2006?,_ error: Error?) -> Void)) {
-        deleteDocumentWithRequestBuilder(indexName: indexName, docTypeName: docTypeName, docId: docId).execute { (response, error) -> Void in
+    open class func deleteDocument(indexName: StringdocTypeName: StringdocId: Stringcompletion: @escaping ((_ data: DeleteDocumentSuccess?,_ error: Error?) -> Void)) {
+        deleteDocumentWithRequestBuilder(indexName: indexNamedocTypeName: docTypeNamedocId: docId).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -176,25 +154,19 @@ open class RsearchAPI {
     /**
      - DELETE /indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}
      - Deletes `doc_id` in `doc_type_name` for `index_name`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: writeAppID
-     - examples: [{contentType=application/json, example={
-  "document" : {
-    "result" : "deleted"
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docId: (path) Document ID 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+     - parameter docId: () Document ID 
 
-     - returns: RequestBuilder<InlineResponse2006> 
+     - returns: RequestBuilder<DeleteDocumentSuccess> 
      */
-    open class func deleteDocumentWithRequestBuilder(indexName: String, docTypeName: String, docId: String) -> RequestBuilder<InlineResponse2006> {
+    open class func deleteDocumentWithRequestBuilder(indexName: StringdocTypeName: StringdocId: String) -> RequestBuilder<DeleteDocumentSuccess> {
         var path = "/indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
@@ -205,17 +177,17 @@ open class RsearchAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse2006>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<DeleteDocumentSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
+     - parameter indexName: () Name of the index 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func deleteIndex(indexName: String, completion: @escaping ((_ data: InlineResponse202?,_ error: Error?) -> Void)) {
+    open class func deleteIndex(indexName: Stringcompletion: @escaping ((_ data: DeleteIndexSuccess?,_ error: Error?) -> Void)) {
         deleteIndexWithRequestBuilder(indexName: indexName).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -225,23 +197,17 @@ open class RsearchAPI {
     /**
      - DELETE /indexes/{index_name}
      - Deletes `an index` {index_name}
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: writeAppID
-     - examples: [{contentType=application/json, example={
-  "index" : {
-    "result" : "deleted"
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
+     - parameter indexName: () Name of the index 
 
-     - returns: RequestBuilder<InlineResponse202> 
+     - returns: RequestBuilder<DeleteIndexSuccess> 
      */
-    open class func deleteIndexWithRequestBuilder(indexName: String) -> RequestBuilder<InlineResponse202> {
+    open class func deleteIndexWithRequestBuilder(indexName: String) -> RequestBuilder<DeleteIndexSuccess> {
         var path = "/indexes/{index_name}"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
@@ -250,20 +216,100 @@ open class RsearchAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse202>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<DeleteIndexSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "DELETE", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the Document)type 
-     - parameter search: (body) Details of the search query 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the Document_type 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAdvancedSearchResults(indexName: String, docTypeName: String, search: Any, completion: @escaping ((_ data: InlineResponse2007?,_ error: Error?) -> Void)) {
-        getAdvancedSearchResultsWithRequestBuilder(indexName: indexName, docTypeName: docTypeName, search: search).execute { (response, error) -> Void in
+    open class func getAdvancedDocTypeSuggestResults(indexName: StringdocTypeName: Stringcompletion: @escaping ((_ data: SuggestSuccess?,_ error: Error?) -> Void)) {
+        getAdvancedDocTypeSuggestResultsWithRequestBuilder(indexName: indexNamedocTypeName: docTypeName).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - POST /indexes/{index_name}/document_types/{doc_type_name}/suggest
+     - Gets Suggestions from `doc_type_name` in `index_name` limited by the body params. Please ensure you refer the getting started guides, to get the format of the query right.
+     - :
+       - type: apiKey auth_token 
+       - name: authToken
+     - :
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the Document_type 
+
+     - returns: RequestBuilder<SuggestSuccess> 
+     */
+    open class func getAdvancedDocTypeSuggestResultsWithRequestBuilder(indexName: StringdocTypeName: String) -> RequestBuilder<SuggestSuccess> {
+        var path = "/indexes/{index_name}/document_types/{doc_type_name}/suggest"
+        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<SuggestSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+
+     - parameter indexName: () Name of the index 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getAdvancedIndexSuggestResults(indexName: Stringcompletion: @escaping ((_ data: SuggestSuccess?,_ error: Error?) -> Void)) {
+        getAdvancedIndexSuggestResultsWithRequestBuilder(indexName: indexName).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - POST /indexes/{index_name}/suggest
+     - Gets Suggestions in `index_name` limited by the request body fields
+     - :
+       - type: apiKey auth_token 
+       - name: authToken
+     - :
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - parameter indexName: () Name of the index 
+
+     - returns: RequestBuilder<SuggestSuccess> 
+     */
+    open class func getAdvancedIndexSuggestResultsWithRequestBuilder(indexName: String) -> RequestBuilder<SuggestSuccess> {
+        var path = "/indexes/{index_name}/suggest"
+        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<SuggestSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the Document_type 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getAdvancedSearchResults(indexName: StringdocTypeName: Stringcompletion: @escaping ((_ data: SearchSuccess?,_ error: Error?) -> Void)) {
+        getAdvancedSearchResultsWithRequestBuilder(indexName: indexNamedocTypeName: docTypeName).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -271,50 +317,39 @@ open class RsearchAPI {
 
     /**
      - POST /indexes/{index_name}/document_types/{doc_type_name}/search
-     - Advanced Search which gets all documents in `index_name` for provided search criteria
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - Advanced Search which gets all documents in `index_name` for provided search criteria. Please ensure you refer the getting started guides, to get the format of the query right.
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: writeAppID
-     - examples: [{contentType=application/json, example={
-  "search_results" : {
-    "metadata" : {
-      "number_documents" : 2,
-      "query" : "query_string"
-    },
-    "results" : ""
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the Document)type 
-     - parameter search: (body) Details of the search query 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the Document_type 
 
-     - returns: RequestBuilder<InlineResponse2007> 
+     - returns: RequestBuilder<SearchSuccess> 
      */
-    open class func getAdvancedSearchResultsWithRequestBuilder(indexName: String, docTypeName: String, search: Any) -> RequestBuilder<InlineResponse2007> {
+    open class func getAdvancedSearchResultsWithRequestBuilder(indexName: StringdocTypeName: String) -> RequestBuilder<SearchSuccess> {
         var path = "/indexes/{index_name}/document_types/{doc_type_name}/search"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
-        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: search)
+        let parameters: [String:Any]? = nil
 
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse2007>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<SearchSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
+     - parameter indexName: () Name of the index 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAllDocumentTypes(indexName: String, completion: @escaping ((_ data: InlineResponse2002?,_ error: Error?) -> Void)) {
+    open class func getAllDocumentTypes(indexName: Stringcompletion: @escaping ((_ data: GetDocTypesSuccess?,_ error: Error?) -> Void)) {
         getAllDocumentTypesWithRequestBuilder(indexName: indexName).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -324,26 +359,17 @@ open class RsearchAPI {
     /**
      - GET /indexes/{index_name}/document_types
      - Gets `All document_types` present in `index_name`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "indexes" : {
-    "metadata" : {
-      "number_document_types" : 2
-    },
-    "results" : ""
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
+     - parameter indexName: () Name of the index 
 
-     - returns: RequestBuilder<InlineResponse2002> 
+     - returns: RequestBuilder<GetDocTypesSuccess> 
      */
-    open class func getAllDocumentTypesWithRequestBuilder(indexName: String) -> RequestBuilder<InlineResponse2002> {
+    open class func getAllDocumentTypesWithRequestBuilder(indexName: String) -> RequestBuilder<GetDocTypesSuccess> {
         var path = "/indexes/{index_name}/document_types"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
@@ -352,19 +378,19 @@ open class RsearchAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse2002>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<GetDocTypesSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAllDocuments(indexName: String, docTypeName: String, completion: @escaping ((_ data: InlineResponse2002?,_ error: Error?) -> Void)) {
-        getAllDocumentsWithRequestBuilder(indexName: indexName, docTypeName: docTypeName).execute { (response, error) -> Void in
+    open class func getAllDocuments(indexName: StringdocTypeName: Stringcompletion: @escaping ((_ data: GetDocumentsSuccess?,_ error: Error?) -> Void)) {
+        getAllDocumentsWithRequestBuilder(indexName: indexNamedocTypeName: docTypeName).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -372,28 +398,19 @@ open class RsearchAPI {
 
     /**
      - GET /indexes/{index_name}/document_types/{doc_type_name}/documents
-     - Fetches all documents in `doc_type_name` for `index_name`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - Fetches all documents in `doc_type_name` for `index_name`. All the documents and hence careful with its use.
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "indexes" : {
-    "metadata" : {
-      "number_document_types" : 2
-    },
-    "results" : ""
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
 
-     - returns: RequestBuilder<InlineResponse2002> 
+     - returns: RequestBuilder<GetDocumentsSuccess> 
      */
-    open class func getAllDocumentsWithRequestBuilder(indexName: String, docTypeName: String) -> RequestBuilder<InlineResponse2002> {
+    open class func getAllDocumentsWithRequestBuilder(indexName: StringdocTypeName: String) -> RequestBuilder<GetDocumentsSuccess> {
         var path = "/indexes/{index_name}/document_types/{doc_type_name}/documents"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
@@ -403,7 +420,7 @@ open class RsearchAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse2002>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<GetDocumentsSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
@@ -412,7 +429,7 @@ open class RsearchAPI {
 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getAllIndexes(completion: @escaping ((_ data: InlineResponse200?,_ error: Error?) -> Void)) {
+    open class func getAllIndexes(completion: @escaping ((_ data: GetIndexesSuccess?,_ error: Error?) -> Void)) {
         getAllIndexesWithRequestBuilder().execute { (response, error) -> Void in
             completion(response?.body, error);
         }
@@ -421,25 +438,17 @@ open class RsearchAPI {
 
     /**
      - GET /indexes
-     - Fetches `All indexes`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - Fetches `All indexes` that the user has. Not recommended to be used in production code, as there isn't that big a Use case for listing all indexes!
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "indexes" : {
-    "metadata" : {
-      "number_indexes" : 2
-    },
-    "results" : ""
-  }
-}}]
 
-     - returns: RequestBuilder<InlineResponse200> 
+     - returns: RequestBuilder<GetIndexesSuccess> 
      */
-    open class func getAllIndexesWithRequestBuilder() -> RequestBuilder<InlineResponse200> {
+    open class func getAllIndexesWithRequestBuilder() -> RequestBuilder<GetIndexesSuccess> {
         let path = "/indexes"
         let URLString = RSearchClientAPI.basePath + path
         let parameters: [String:Any]? = nil
@@ -447,19 +456,19 @@ open class RsearchAPI {
         let url = NSURLComponents(string: URLString)
 
 
-        let requestBuilder: RequestBuilder<InlineResponse200>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<GetIndexesSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter q: (query) Search Query 
+     - parameter indexName: () Name of the index 
+     - parameter q: () Search Query 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getBasicSearchResults(indexName: String, q: String, completion: @escaping ((_ data: InlineResponse2007?,_ error: Error?) -> Void)) {
-        getBasicSearchResultsWithRequestBuilder(indexName: indexName, q: q).execute { (response, error) -> Void in
+    open class func getBasicSearchResults(indexName: Stringq: Stringcompletion: @escaping ((_ data: SearchSuccess?,_ error: Error?) -> Void)) {
+        getBasicSearchResultsWithRequestBuilder(indexName: indexNameq: q).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -468,28 +477,18 @@ open class RsearchAPI {
     /**
      - GET /indexes/{index_name}/search
      - Basic Search which gets all documents in `index_name` for provided search criteria
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "search_results" : {
-    "metadata" : {
-      "number_documents" : 2,
-      "query" : "query_string"
-    },
-    "results" : ""
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter q: (query) Search Query 
+     - parameter indexName: () Name of the index 
+     - parameter q: () Search Query 
 
-     - returns: RequestBuilder<InlineResponse2007> 
+     - returns: RequestBuilder<SearchSuccess> 
      */
-    open class func getBasicSearchResultsWithRequestBuilder(indexName: String, q: String) -> RequestBuilder<InlineResponse2007> {
+    open class func getBasicSearchResultsWithRequestBuilder(indexName: Stringq: String) -> RequestBuilder<SearchSuccess> {
         var path = "/indexes/{index_name}/search"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
@@ -501,182 +500,20 @@ open class RsearchAPI {
         ])
         
 
-        let requestBuilder: RequestBuilder<InlineResponse2007>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<SearchSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
 
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docId: (path) Document ID 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the Document_type 
+     - parameter q: () Details of the suggest query 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    open class func getDocument(indexName: String, docTypeName: String, docId: String, completion: @escaping ((_ data: InlineResponse2004?,_ error: Error?) -> Void)) {
-        getDocumentWithRequestBuilder(indexName: indexName, docTypeName: docTypeName, docId: docId).execute { (response, error) -> Void in
-            completion(response?.body, error);
-        }
-    }
-
-
-    /**
-     - GET /indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}
-     - Fetches details of `doc_id` in `doc_type_name` for `index_name`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
-       - name: authToken
-     - API Key:
-       - type: apiKey X-RSearch-App-ID 
-       - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "document" : {
-    "result" : {
-      "fields" : [ {
-        "name" : "property_1",
-        "value" : "value_1"
-      }, {
-        "name" : "property_2",
-        "value" : "value_2"
-      } ],
-      "document_id" : 100
-    }
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter docId: (path) Document ID 
-
-     - returns: RequestBuilder<InlineResponse2004> 
-     */
-    open class func getDocumentWithRequestBuilder(indexName: String, docTypeName: String, docId: String) -> RequestBuilder<InlineResponse2004> {
-        var path = "/indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}"
-        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
-        path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
-        path = path.replacingOccurrences(of: "{doc_id}", with: "\(docId)", options: .literal, range: nil)
-        let URLString = RSearchClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
-
-        let requestBuilder: RequestBuilder<InlineResponse2004>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getDocumentType(indexName: String, docTypeName: String, completion: @escaping ((_ data: InlineResponse2003?,_ error: Error?) -> Void)) {
-        getDocumentTypeWithRequestBuilder(indexName: indexName, docTypeName: docTypeName).execute { (response, error) -> Void in
-            completion(response?.body, error);
-        }
-    }
-
-
-    /**
-     - GET /indexes/{index_name}/document_types/{doc_type_name}
-     - Checks whether `document_type` in `index_name` exists
-     - API Key:
-       - type: apiKey auth_token (QUERY)
-       - name: authToken
-     - API Key:
-       - type: apiKey X-RSearch-App-ID 
-       - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "document_type" : {
-    "result" : {
-      "fields" : [ {
-        "type" : "datatype_1",
-        "name" : "property_1"
-      }, {
-        "type" : "datatype_2",
-        "name" : "property_2"
-      } ],
-      "name" : "document_type_1"
-    }
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-
-     - returns: RequestBuilder<InlineResponse2003> 
-     */
-    open class func getDocumentTypeWithRequestBuilder(indexName: String, docTypeName: String) -> RequestBuilder<InlineResponse2003> {
-        var path = "/indexes/{index_name}/document_types/{doc_type_name}"
-        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
-        path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
-        let URLString = RSearchClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
-
-        let requestBuilder: RequestBuilder<InlineResponse2003>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-
-     - parameter indexName: (path) Name of the index 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getIndex(indexName: String, completion: @escaping ((_ data: InlineResponse2001?,_ error: Error?) -> Void)) {
-        getIndexWithRequestBuilder(indexName: indexName).execute { (response, error) -> Void in
-            completion(response?.body, error);
-        }
-    }
-
-
-    /**
-     - GET /indexes/{index_name}
-     - Checks whether `a particular index` {index_name} exists
-     - API Key:
-       - type: apiKey auth_token (QUERY)
-       - name: authToken
-     - API Key:
-       - type: apiKey X-RSearch-App-ID 
-       - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "index" : {
-    "result" : "available"
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-
-     - returns: RequestBuilder<InlineResponse2001> 
-     */
-    open class func getIndexWithRequestBuilder(indexName: String) -> RequestBuilder<InlineResponse2001> {
-        var path = "/indexes/{index_name}"
-        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
-        let URLString = RSearchClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
-
-        let requestBuilder: RequestBuilder<InlineResponse2001>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the Document_type 
-     - parameter q: (query) Details of the suggest query 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getSuggestResults(indexName: String, docTypeName: String, q: String, completion: @escaping ((_ data: InlineResponse2008?,_ error: Error?) -> Void)) {
-        getSuggestResultsWithRequestBuilder(indexName: indexName, docTypeName: docTypeName, q: q).execute { (response, error) -> Void in
+    open class func getDocTypeSuggestResults(indexName: StringdocTypeName: Stringq: Stringcompletion: @escaping ((_ data: SuggestSuccess?,_ error: Error?) -> Void)) {
+        getDocTypeSuggestResultsWithRequestBuilder(indexName: indexNamedocTypeName: docTypeNameq: q).execute { (response, error) -> Void in
             completion(response?.body, error);
         }
     }
@@ -684,30 +521,20 @@ open class RsearchAPI {
 
     /**
      - GET /indexes/{index_name}/document_types/{doc_type_name}/suggest
-     - Basic Search - Gets Suggestions from `doc_type_name` in `index_name`
-     - API Key:
-       - type: apiKey auth_token (QUERY)
+     - Gets Suggestions from `doc_type_name` in `index_name`. Please ensure you refer the getting started guides, to get the format of the query right.
+     - :
+       - type: apiKey auth_token 
        - name: authToken
-     - API Key:
+     - :
        - type: apiKey X-RSearch-App-ID 
        - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "suggest_results" : {
-    "metadata" : {
-      "number_suggest_results" : 2,
-      "query" : "query_string"
-    },
-    "results" : ""
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the Document_type 
-     - parameter q: (query) Details of the suggest query 
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the Document_type 
+     - parameter q: () Details of the suggest query 
 
-     - returns: RequestBuilder<InlineResponse2008> 
+     - returns: RequestBuilder<SuggestSuccess> 
      */
-    open class func getSuggestResultsWithRequestBuilder(indexName: String, docTypeName: String, q: String) -> RequestBuilder<InlineResponse2008> {
+    open class func getDocTypeSuggestResultsWithRequestBuilder(indexName: StringdocTypeName: Stringq: String) -> RequestBuilder<SuggestSuccess> {
         var path = "/indexes/{index_name}/document_types/{doc_type_name}/suggest"
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
@@ -720,7 +547,133 @@ open class RsearchAPI {
         ])
         
 
-        let requestBuilder: RequestBuilder<InlineResponse2008>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<SuggestSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+     - parameter docId: () Document ID 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getDocument(indexName: StringdocTypeName: StringdocId: Stringcompletion: @escaping ((_ data: GetDocumentSuccess?,_ error: Error?) -> Void)) {
+        getDocumentWithRequestBuilder(indexName: indexNamedocTypeName: docTypeNamedocId: docId).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - GET /indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}
+     - Fetches the document referenced by `doc_id` in `doc_type_name` for `index_name`
+     - :
+       - type: apiKey auth_token 
+       - name: authToken
+     - :
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+     - parameter docId: () Document ID 
+
+     - returns: RequestBuilder<GetDocumentSuccess> 
+     */
+    open class func getDocumentWithRequestBuilder(indexName: StringdocTypeName: StringdocId: String) -> RequestBuilder<GetDocumentSuccess> {
+        var path = "/indexes/{index_name}/document_types/{doc_type_name}/documents/{doc_id}"
+        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{doc_id}", with: "\(docId)", options: .literal, range: nil)
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<GetDocumentSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getDocumentType(indexName: StringdocTypeName: Stringcompletion: @escaping ((_ data: GetDocTypeSuccess?,_ error: Error?) -> Void)) {
+        getDocumentTypeWithRequestBuilder(indexName: indexNamedocTypeName: docTypeName).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - GET /indexes/{index_name}/document_types/{doc_type_name}
+     - Checks whether `document_type` in `index_name` exists
+     - :
+       - type: apiKey auth_token 
+       - name: authToken
+     - :
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - parameter indexName: () Name of the index 
+     - parameter docTypeName: () Name of the document_type 
+
+     - returns: RequestBuilder<GetDocTypeSuccess> 
+     */
+    open class func getDocumentTypeWithRequestBuilder(indexName: StringdocTypeName: String) -> RequestBuilder<GetDocTypeSuccess> {
+        var path = "/indexes/{index_name}/document_types/{doc_type_name}"
+        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
+        path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<GetDocTypeSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+
+     - parameter indexName: () Name of the index 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getIndex(indexName: Stringcompletion: @escaping ((_ data: GetIndexSuccess?,_ error: Error?) -> Void)) {
+        getIndexWithRequestBuilder(indexName: indexName).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - GET /indexes/{index_name}
+     - Checks whether `a particular index` {index_name} exists
+     - :
+       - type: apiKey auth_token 
+       - name: authToken
+     - :
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - parameter indexName: () Name of the index 
+
+     - returns: RequestBuilder<GetIndexSuccess> 
+     */
+    open class func getIndexWithRequestBuilder(indexName: String) -> RequestBuilder<GetIndexSuccess> {
+        var path = "/indexes/{index_name}"
+        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters: [String:Any]? = nil
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<GetIndexSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
     }
