@@ -11,9 +11,13 @@ import Foundation
 
 open class SearchSuccess: Codable {
 
-    public var suggestResults: Any?
+    public var suggestResults: SearchSuccessSuggestResults?
 
 
+    
+    public init(suggestResults: SearchSuccessSuggestResults?) {
+        self.suggestResults = suggestResults
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class SearchSuccess: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        suggestResults = try container.decodeIfPresent(Any.self, forKey: "suggest_results")
+        suggestResults = try container.decodeIfPresent(SearchSuccessSuggestResults.self, forKey: "suggest_results")
     }
 }
 

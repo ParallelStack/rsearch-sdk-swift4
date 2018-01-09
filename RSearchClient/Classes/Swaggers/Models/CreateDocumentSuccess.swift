@@ -11,9 +11,13 @@ import Foundation
 
 open class CreateDocumentSuccess: Codable {
 
-    public var document: Any
+    public var document: CreateIndexSuccessIndexes
 
 
+    
+    public init(document: CreateIndexSuccessIndexes) {
+        self.document = document
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class CreateDocumentSuccess: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        document = try container.decode(Any.self, forKey: "document")
+        document = try container.decode(CreateIndexSuccessIndexes.self, forKey: "document")
     }
 }
 

@@ -11,9 +11,13 @@ import Foundation
 
 open class GetIndexSuccess: Codable {
 
-    public var indexes: Any?
+    public var indexes: GetIndexSuccessIndexes?
 
 
+    
+    public init(indexes: GetIndexSuccessIndexes?) {
+        self.indexes = indexes
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class GetIndexSuccess: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        indexes = try container.decodeIfPresent(Any.self, forKey: "indexes")
+        indexes = try container.decodeIfPresent(GetIndexSuccessIndexes.self, forKey: "indexes")
     }
 }
 

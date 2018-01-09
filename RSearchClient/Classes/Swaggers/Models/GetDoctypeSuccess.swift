@@ -11,9 +11,13 @@ import Foundation
 
 open class GetDocTypeSuccess: Codable {
 
-    public var documentType: Any
+    public var documentType: GetDocTypeSuccessDocumentType
 
 
+    
+    public init(documentType: GetDocTypeSuccessDocumentType) {
+        self.documentType = documentType
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class GetDocTypeSuccess: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        documentType = try container.decode(Any.self, forKey: "document_type")
+        documentType = try container.decode(GetDocTypeSuccessDocumentType.self, forKey: "document_type")
     }
 }
 

@@ -11,9 +11,13 @@ import Foundation
 
 open class GetDocumentFailure: Codable {
 
-    public var document: Any
+    public var document: GetIndexesFailureIndexes
 
 
+    
+    public init(document: GetIndexesFailureIndexes) {
+        self.document = document
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class GetDocumentFailure: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        document = try container.decode(Any.self, forKey: "document")
+        document = try container.decode(GetIndexesFailureIndexes.self, forKey: "document")
     }
 }
 

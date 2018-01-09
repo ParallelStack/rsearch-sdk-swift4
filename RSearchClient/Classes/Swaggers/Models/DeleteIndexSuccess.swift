@@ -11,9 +11,13 @@ import Foundation
 
 open class DeleteIndexSuccess: Codable {
 
-    public var index: Any
+    public var index: DeleteIndexSuccessIndex
 
 
+    
+    public init(index: DeleteIndexSuccessIndex) {
+        self.index = index
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class DeleteIndexSuccess: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        index = try container.decode(Any.self, forKey: "index")
+        index = try container.decode(DeleteIndexSuccessIndex.self, forKey: "index")
     }
 }
 

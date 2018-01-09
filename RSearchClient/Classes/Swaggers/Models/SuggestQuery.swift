@@ -11,9 +11,13 @@ import Foundation
 
 open class SuggestQuery: Codable {
 
-    public var suggest: Any
+    public var suggest: SuggestQuerySuggest
 
 
+    
+    public init(suggest: SuggestQuerySuggest) {
+        self.suggest = suggest
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class SuggestQuery: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        suggest = try container.decode(Any.self, forKey: "suggest")
+        suggest = try container.decode(SuggestQuerySuggest.self, forKey: "suggest")
     }
 }
 

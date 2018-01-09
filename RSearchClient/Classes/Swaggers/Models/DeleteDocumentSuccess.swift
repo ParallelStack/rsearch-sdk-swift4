@@ -11,9 +11,13 @@ import Foundation
 
 open class DeleteDocumentSuccess: Codable {
 
-    public var document: Any
+    public var document: DeleteIndexSuccessIndex
 
 
+    
+    public init(document: DeleteIndexSuccessIndex) {
+        self.document = document
+    }
     
 
     // Encodable protocol methods
@@ -30,7 +34,7 @@ open class DeleteDocumentSuccess: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        document = try container.decode(Any.self, forKey: "document")
+        document = try container.decode(DeleteIndexSuccessIndex.self, forKey: "document")
     }
 }
 

@@ -12,9 +12,14 @@ import Foundation
 open class DocumentType: Codable {
 
     public var name: String
-    public var fields: [[ERRORUNKNOWN]]
+    public var fields: [DocumentTypeFields]
 
 
+    
+    public init(name: String, fields: [DocumentTypeFields]) {
+        self.name = name
+        self.fields = fields
+    }
     
 
     // Encodable protocol methods
@@ -33,7 +38,7 @@ open class DocumentType: Codable {
         let container = try decoder.container(keyedBy: String.self)
 
         name = try container.decode(String.self, forKey: "name")
-        fields = try container.decode([[ERRORUNKNOWN]].self, forKey: "fields")
+        fields = try container.decode([DocumentTypeFields].self, forKey: "fields")
     }
 }
 
