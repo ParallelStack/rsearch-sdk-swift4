@@ -20,16 +20,13 @@ open class DocumentTypeFields: Codable {
         case location = "location"
         case fixed = "fixed"
     }
-    public enum Suggest: String, Codable { 
-        case _true = "true"
-    }
     public var name: String?
     public var type: ModelType?
-    public var suggest: Suggest?
+    public var suggest: String?
 
 
     
-    public init(name: String?, type: ModelType?, suggest: Suggest?) {
+    public init(name: String?, type: ModelType?, suggest: String?) {
         self.name = name
         self.type = type
         self.suggest = suggest
@@ -54,7 +51,7 @@ open class DocumentTypeFields: Codable {
 
         name = try container.decodeIfPresent(String.self, forKey: "name")
         type = try container.decodeIfPresent(ModelType.self, forKey: "type")
-        suggest = try container.decodeIfPresent(Suggest.self, forKey: "suggest")
+        suggest = try container.decodeIfPresent(String.self, forKey: "suggest")
     }
 }
 
