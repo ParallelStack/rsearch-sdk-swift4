@@ -11,22 +11,13 @@ import Foundation
 
 open class DocumentTypeFields: Codable {
 
-    public enum ModelType: String, Codable { 
-        case string = "string"
-        case text = "text"
-        case float = "float"
-        case integer = "integer"
-        case date = "date"
-        case location = "location"
-        case fixed = "fixed"
-    }
     public var name: String?
-    public var type: ModelType?
+    public var type: String?
     public var suggest: String?
 
 
     
-    public init(name: String?, type: ModelType?, suggest: String?) {
+    public init(name: String?, type: String?, suggest: String?) {
         self.name = name
         self.type = type
         self.suggest = suggest
@@ -50,7 +41,7 @@ open class DocumentTypeFields: Codable {
         let container = try decoder.container(keyedBy: String.self)
 
         name = try container.decodeIfPresent(String.self, forKey: "name")
-        type = try container.decodeIfPresent(ModelType.self, forKey: "type")
+        type = try container.decodeIfPresent(String.self, forKey: "type")
         suggest = try container.decodeIfPresent(String.self, forKey: "suggest")
     }
 }
