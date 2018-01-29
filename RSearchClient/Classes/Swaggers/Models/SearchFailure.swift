@@ -11,12 +11,12 @@ import Foundation
 
 open class SearchFailure: Codable {
 
-    public var suggestResults: SearchFailureSuggestResults?
+    public var searchResults: SearchFailureSearchResults
 
 
     
-    public init(suggestResults: SearchFailureSuggestResults?) {
-        self.suggestResults = suggestResults
+    public init(searchResults: SearchFailureSearchResults) {
+        self.searchResults = searchResults
     }
     
 
@@ -26,7 +26,7 @@ open class SearchFailure: Codable {
 
         var container = encoder.container(keyedBy: String.self)
 
-        try container.encodeIfPresent(suggestResults, forKey: "suggest_results")
+        try container.encode(searchResults, forKey: "search_results")
     }
 
     // Decodable protocol methods
@@ -34,7 +34,7 @@ open class SearchFailure: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        suggestResults = try container.decodeIfPresent(SearchFailureSuggestResults.self, forKey: "suggest_results")
+        searchResults = try container.decode(SearchFailureSearchResults.self, forKey: "search_results")
     }
 }
 
