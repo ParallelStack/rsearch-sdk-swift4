@@ -86,7 +86,7 @@ open class RsearchAPI {
        - name: authToken
      - API Key:
        - type: apiKey X-RSearch-App-ID 
-       - name: readAppID
+       - name: writeAppID
      - examples: [{contentType=application/json, example={
   "document_type" : {
     "result" : "created"
@@ -390,13 +390,13 @@ open class RsearchAPI {
        - name: authToken
      - API Key:
        - type: apiKey X-RSearch-App-ID 
-       - name: writeAppID
+       - name: readAppID
      - examples: [{contentType=application/json, example={
   "search_results" : {
     "results" : [ {
       "document_id" : "101",
       "_source" : {
-        "shop_description" : "the primary  store",
+        "shop_description" : "the primary store",
         "reg_date" : "2016-09-22",
         "shop_type" : "company owned",
         "revenues" : 200000,
@@ -501,93 +501,6 @@ open class RsearchAPI {
 
     /**
 
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func getAllDocuments(indexName: String, docTypeName: String, completion: @escaping ((_ data: GetDocumentsSuccess?,_ error: Error?) -> Void)) {
-        getAllDocumentsWithRequestBuilder(indexName: indexName, docTypeName: docTypeName).execute { (response, error) -> Void in
-            completion(response?.body, error);
-        }
-    }
-
-
-    /**
-     - GET /indexes/{index_name}/document_types/{doc_type_name}/documents
-     - Fetches all documents in `doc_type_name` for `index_name`. All the documents and hence careful with its use.
-     - API Key:
-       - type: apiKey auth_token (QUERY)
-       - name: authToken
-     - API Key:
-       - type: apiKey X-RSearch-App-ID 
-       - name: readAppID
-     - examples: [{contentType=application/json, example={
-  "documents" : {
-    "results" : [ {
-      "fields" : [ {
-        "name" : "shop_location",
-        "value" : "41.321, -73.101"
-      }, {
-        "name" : "shop_description",
-        "value" : "some store"
-      }, {
-        "name" : "reg_date",
-        "value" : "2016-09-22"
-      }, {
-        "name" : "shop_type",
-        "value" : "company owned"
-      }, {
-        "name" : "shop_name",
-        "value" : "some store at city center"
-      } ],
-      "document_id" : "101"
-    }, {
-      "fields" : [ {
-        "name" : "shop_location",
-        "value" : "23.1, -30.101"
-      }, {
-        "name" : "shop_description",
-        "value" : "some other store"
-      }, {
-        "name" : "reg_date",
-        "value" : "2016-09-22"
-      }, {
-        "name" : "shop_type",
-        "value" : "company owned"
-      }, {
-        "name" : "shop_name",
-        "value" : "some store not at city center"
-      } ],
-      "document_id" : "100"
-    } ],
-    "metadata" : {
-      "number_documents" : 2
-    }
-  }
-}}]
-     
-     - parameter indexName: (path) Name of the index 
-     - parameter docTypeName: (path) Name of the document_type 
-
-     - returns: RequestBuilder<GetDocumentsSuccess> 
-     */
-    open class func getAllDocumentsWithRequestBuilder(indexName: String, docTypeName: String) -> RequestBuilder<GetDocumentsSuccess> {
-        var path = "/indexes/{index_name}/document_types/{doc_type_name}/documents"
-        path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
-        path = path.replacingOccurrences(of: "{doc_type_name}", with: "\(docTypeName)", options: .literal, range: nil)
-        let URLString = RSearchClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-
-        let url = NSURLComponents(string: URLString)
-
-
-        let requestBuilder: RequestBuilder<GetDocumentsSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-
      - parameter completion: completion handler to receive the data and the error objects
      */
     open class func getAllIndexes(completion: @escaping ((_ data: GetIndexesSuccess?,_ error: Error?) -> Void)) {
@@ -657,7 +570,7 @@ open class RsearchAPI {
     "results" : [ {
       "document_id" : "101",
       "_source" : {
-        "shop_description" : "the primary  store",
+        "shop_description" : "the primary store",
         "reg_date" : "2016-09-22",
         "shop_type" : "company owned",
         "revenues" : 200000,

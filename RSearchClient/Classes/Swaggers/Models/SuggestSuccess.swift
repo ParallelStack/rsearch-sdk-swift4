@@ -11,11 +11,11 @@ import Foundation
 
 open class SuggestSuccess: Codable {
 
-    public var suggestResults: SearchSuccessSearchResults
+    public var suggestResults: SuggestSuccessSuggestResults
 
 
     
-    public init(suggestResults: SearchSuccessSearchResults) {
+    public init(suggestResults: SuggestSuccessSuggestResults) {
         self.suggestResults = suggestResults
     }
     
@@ -34,7 +34,7 @@ open class SuggestSuccess: Codable {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: String.self)
 
-        suggestResults = try container.decode(SearchSuccessSearchResults.self, forKey: "suggest_results")
+        suggestResults = try container.decode(SuggestSuccessSuggestResults.self, forKey: "suggest_results")
     }
 }
 
