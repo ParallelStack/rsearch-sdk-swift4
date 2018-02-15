@@ -13,14 +13,14 @@ open class SearchSuccessSearchResultsMetadata: Codable {
 
     public var numberSearchResults: Double
     public var query: String
-    public var aggregations: Any?
+    public var aggregated: Any?
 
 
     
-    public init(numberSearchResults: Double, query: String, aggregations: Any?) {
+    public init(numberSearchResults: Double, query: String, aggregated: Any?) {
         self.numberSearchResults = numberSearchResults
         self.query = query
-        self.aggregations = aggregations
+        self.aggregated = aggregated
     }
     
 
@@ -32,7 +32,7 @@ open class SearchSuccessSearchResultsMetadata: Codable {
 
         try container.encode(numberSearchResults, forKey: "number_search_results")
         try container.encode(query, forKey: "query")
-        try container.encodeIfPresent(aggregations, forKey: "aggregations")
+        try container.encodeIfPresent(aggregated, forKey: "aggregated")
     }
 
     // Decodable protocol methods
@@ -42,7 +42,7 @@ open class SearchSuccessSearchResultsMetadata: Codable {
 
         numberSearchResults = try container.decode(Double.self, forKey: "number_search_results")
         query = try container.decode(String.self, forKey: "query")
-        aggregations = try container.decodeIfPresent(Any.self, forKey: "aggregations")
+        aggregated = try container.decodeIfPresent(Any.self, forKey: "aggregated")
     }
 }
 
