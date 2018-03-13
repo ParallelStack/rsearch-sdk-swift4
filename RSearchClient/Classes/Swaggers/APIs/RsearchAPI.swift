@@ -271,7 +271,7 @@ open class RsearchAPI {
 
     /**
      - POST /indexes/{index_name}/document_types/{doc_type_name}/suggest
-     - Gets Suggestions from `doc_type_name` in `index_name` limited by the body params. Please ensure you refer the getting started guides, to get the format of the query right.
+     - Gets Suggestions from `doc_type_name` in `index_name` based on body params. Please ensure you refer the getting started guides, to get the format of the query right.
      - API Key:
        - type: apiKey auth_token (QUERY)
        - name: authToken
@@ -359,6 +359,117 @@ open class RsearchAPI {
         path = path.replacingOccurrences(of: "{index_name}", with: "\(indexName)", options: .literal, range: nil)
         let URLString = RSearchClientAPI.basePath + path
         let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: search)
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<SuggestSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+
+     - parameter search: (body) Details of the search query 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getAdvancedMultiIndexSearchResults(search: IndexesSearchQuery, completion: @escaping ((_ data: SearchSuccess?,_ error: Error?) -> Void)) {
+        getAdvancedMultiIndexSearchResultsWithRequestBuilder(search: search).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - POST /indexes/search
+     - Advanced Search across multiple indexes specified as a part of the search criteria. Please ensure you refer the getting started guides, to get the format of the query right.
+     - API Key:
+       - type: apiKey auth_token (QUERY)
+       - name: authToken
+     - API Key:
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - examples: [{contentType=application/json, example={
+  "search_results" : {
+    "results" : [ {
+      "document_id" : "101",
+      "_source" : {
+        "shop_description" : "the primary store",
+        "reg_date" : "2016-09-22",
+        "shop_type" : "company owned",
+        "revenues" : 200000,
+        "shop_owner" : "company",
+        "shop_location" : "41.321, -73.101",
+        "shop_name" : "store at city center"
+      }
+    } ],
+    "metadata" : {
+      "number_search_results" : 1,
+      "query" : "store"
+    }
+  }
+}}]
+     
+     - parameter search: (body) Details of the search query 
+
+     - returns: RequestBuilder<SearchSuccess> 
+     */
+    open class func getAdvancedMultiIndexSearchResultsWithRequestBuilder(search: IndexesSearchQuery) -> RequestBuilder<SearchSuccess> {
+        let path = "/indexes/search"
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: search)
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<SearchSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
+    }
+
+    /**
+
+     - parameter suggest: (body) Details of the suggest query 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getAdvancedMultiIndexSuggestResults(suggest: IndexesSuggestQuery, completion: @escaping ((_ data: SuggestSuccess?,_ error: Error?) -> Void)) {
+        getAdvancedMultiIndexSuggestResultsWithRequestBuilder(suggest: suggest).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - POST /indexes/suggest
+     - Gets Suggestions across multiple indexes. Please ensure you refer the getting started guides, to get the format of the query right.
+     - API Key:
+       - type: apiKey auth_token (QUERY)
+       - name: authToken
+     - API Key:
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - examples: [{contentType=application/json, example={
+  "suggest_results" : {
+    "results" : [ {
+      "text" : "query is great",
+      "_id" : "101",
+      "_score" : 3
+    } ],
+    "metadata" : {
+      "number_suggest_results" : 1,
+      "query" : "query"
+    }
+  }
+}}]
+     
+     - parameter suggest: (body) Details of the suggest query 
+
+     - returns: RequestBuilder<SuggestSuccess> 
+     */
+    open class func getAdvancedMultiIndexSuggestResultsWithRequestBuilder(suggest: IndexesSuggestQuery) -> RequestBuilder<SuggestSuccess> {
+        let path = "/indexes/suggest"
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: suggest)
 
         let url = NSURLComponents(string: URLString)
 
@@ -838,6 +949,64 @@ open class RsearchAPI {
         let requestBuilder: RequestBuilder<GetIndexSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
+    }
+
+    /**
+
+     - parameter algorithm: (body) Query defintions 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    open class func getSimilarDocsResults(algorithm: AlgorithmSimilarDocsQuery, completion: @escaping ((_ data: AlgorithmSuccess?,_ error: Error?) -> Void)) {
+        getSimilarDocsResultsWithRequestBuilder(algorithm: algorithm).execute { (response, error) -> Void in
+            completion(response?.body, error);
+        }
+    }
+
+
+    /**
+     - POST /indexes/algorithms/similardocs
+     - Returns Similar Documents based on the provided document(s) details. Please ensure you refer the getting started guides, to get the format of the query right.
+     - API Key:
+       - type: apiKey auth_token (QUERY)
+       - name: authToken
+     - API Key:
+       - type: apiKey X-RSearch-App-ID 
+       - name: readAppID
+     - examples: [{contentType=application/json, example={
+  "algorithm_results" : {
+    "results" : [ {
+      "document_id" : "101",
+      "_source" : {
+        "shop_description" : "the primary store",
+        "reg_date" : "2016-09-22",
+        "shop_type" : "company owned",
+        "revenues" : 200000,
+        "shop_owner" : "company",
+        "shop_location" : "41.321, -73.101",
+        "shop_name" : "store at city center"
+      }
+    } ],
+    "metadata" : {
+      "number_algorithm_results" : 1
+    }
+  }
+}}]
+     
+     - parameter algorithm: (body) Query defintions 
+
+     - returns: RequestBuilder<AlgorithmSuccess> 
+     */
+    open class func getSimilarDocsResultsWithRequestBuilder(algorithm: AlgorithmSimilarDocsQuery) -> RequestBuilder<AlgorithmSuccess> {
+        let path = "/indexes/algorithms/similardocs"
+        let URLString = RSearchClientAPI.basePath + path
+        let parameters = JSONEncodingHelper.encodingParameters(forEncodableObject: algorithm)
+
+        let url = NSURLComponents(string: URLString)
+
+
+        let requestBuilder: RequestBuilder<AlgorithmSuccess>.Type = RSearchClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: (url?.string ?? URLString), parameters: parameters, isBody: true)
     }
 
 }
